@@ -14,11 +14,11 @@ yarn add @hsu-canvas/renderer
 
 ## 方法
 
-- [**TextGraphics**](#textgraphics-api) 文本渲染
-- [**ImageGraphics**](#imagegraphics-api) 图片渲染
-- [**loadImage**](#loadimage-api) 异步加载图片并缓存
+- [**TextGraphics**](#textgraphics) 文本渲染
+- [**ImageGraphics**](#imagegraphics) 图片渲染
+- [**loadImage**](#loadimage) 异步加载图片并缓存
 
-## TextGraphics API
+## TextGraphics
 
 | 参数    | 说明         | 类型                                        | 默认值 | 备注 |
 | ------- | ------------ | ------------------------------------------- | ------ | ---- |
@@ -136,7 +136,7 @@ interface LinearGradient {
 | offsetX | 阴影水平偏移距离 | number | 0      | -    |
 | offsetY | 阴影垂直偏移距离 | number | 0      | -    |
 
-## ImageGraphics API
+## ImageGraphics
 
 | 参数    | 说明         | 类型                 | 默认值 | 备注 |
 | ------- | ------------ | -------------------- | ------ | ---- |
@@ -175,7 +175,7 @@ interface LinearGradient {
 
 > type ImgAlign = 'start' | 'center' | 'end'
 
-## loadImage API
+## loadImage
 
 | 参数 | 说明     | 类型   | 默认值 | 备注 |
 | ---- | -------- | ------ | ------ | ---- |

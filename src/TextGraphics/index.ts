@@ -1,4 +1,4 @@
-import { deepCopy, get_string_width } from 'hsu-utils'
+import { deepCopy, get_string_size } from 'hsu-utils'
 import loadImage from '../utils/loadImage'
 import drawCtx, { BackgroundStyle } from './drawCtx'
 import drawBorder, { BorderStyle } from './drawBorder'
@@ -89,11 +89,11 @@ export default async function TextGraphics(options: TextGraphicsOptions): Promis
   if (!!_text.length && (canvasWidth === 'auto' || canvasHeight === 'auto')) {
     if (canvasWidth === 'auto') {
       const _maxText = deepCopy(_text).reduce((prev, curr) => {
-        const prevLength = get_string_width(prev, font)
-        const currLength = get_string_width(curr, font)
+        const prevLength = get_string_size(prev, font).width
+        const currLength = get_string_size(curr, font).width
         return prevLength > currLength ? prev : curr
       })
-      const _maxTextWidth = get_string_width(_maxText, font)
+      const _maxTextWidth = get_string_size(_maxText, font).width
       width = _maxTextWidth + (_left + _right) + (_maxText.length - 1) * letterSpacing
     }
 
