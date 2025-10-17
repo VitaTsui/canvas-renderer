@@ -1,6 +1,6 @@
 {
   "name": "@hsu-canvas/renderer",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "some cesium utils",
   "repository": "git@github.com:VitaTsui/canvas-renderer.git",
   "author": "VitaHsu <vitahsu7@gmail.com>",
