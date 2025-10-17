@@ -56,6 +56,6 @@
     "webpack-cli": "^4.9.1"
   },
   "dependencies": {
-    "hsu-utils": "^0.0.10"
+    "hsu-utils": "^0.0.45"
   }
 }
