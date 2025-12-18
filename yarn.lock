@@ -1737,10 +1737,10 @@ has@^1.0.3:
   dependencies:
     function-bind "^1.1.1"
 
-hsu-utils@^0.0.46:
-  version "0.0.46"
-  resolved "https://registry.npmjs.org/hsu-utils/-/hsu-utils-0.0.46.tgz#d779373c723ad8146c6d8e44cc1a13811a11c55d"
-  integrity sha512-X3rVrRJg+xQwbnoY6g1lm/u5YVTjBbvb3n5DhliSTeKp6ZHQGo/HED3IveL7ph0JQsczbXJzWTME39wA4iSPfw==
+hsu-utils@^0.0.45:
+  version "0.0.45"
+  resolved "https://registry.npmjs.org/hsu-utils/-/hsu-utils-0.0.45.tgz#22fe05368acf870e9724cad69c6598bf6c193ada"
+  integrity sha512-MRdqGRyV9c4/11WXqVz4NP0BkRzZ4Eud9uqy7nPs7KvXodYgbm2Ya1+ExnnsNs6rskhDk1wSL5V+godGbjpCYw==
   dependencies:
     pdfjs-dist "2.13.216"
 
