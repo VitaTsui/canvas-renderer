@@ -102,7 +102,7 @@ export default async function drawText(options: DrawTextOptions) {
 
   ctx.font = `${style} ${weight} ${size}px ${fontFamily}`
 
-  ctx.fillText('', -999, -999)
+  ctx.fillText(text[0] || '', -999, -999)
   await new Promise(requestAnimationFrame)
 
   ctx.textAlign = 'left'
