@@ -37,7 +37,6 @@ export default async function TextGraphics(options: TextGraphicsOptions): Promis
     font = {
       size: 10,
       style: 'normal',
-      variant: 'normal',
       weight: 'normal',
       family: 'sans-serif'
     },

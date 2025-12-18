@@ -21,7 +21,6 @@ interface TextBorderStyle {
 interface Font {
   size?: number
   style?: string
-  variant?: string
   weight?: string
   family?: string
 }
@@ -97,11 +96,15 @@ export default async function drawText(options: DrawTextOptions) {
   const { ctx, text, maxTextLength, fontStyle = {}, top = 0, left = 0, rowGap = 0 } = options
   const { color = '#000', textAlign = 'center', font = {}, border = {}, shadow, letterSpacing = 0 } = fontStyle
   const { color: borderColor = '#000', width: borderWidth = 0 } = border
-  const { style = 'normal', variant = 'normal', weight = 'normal', size = 10, family: fontFamily = 'sans-serif' } = font
+  const { style = 'normal', weight = 'normal', size = 10, family: fontFamily = 'sans-serif' } = font
 
-  await document.fonts.load(`${style} ${variant} ${weight} ${size}px ${fontFamily}`)
+  await document.fonts.load(`${style} ${weight} ${size}px ${fontFamily}`)
 
-  ctx.font = `${style} ${variant} ${weight} ${size}px ${fontFamily}`
+  ctx.font = `${style} ${weight} ${size}px ${fontFamily}`
+
+  ctx.fillText('', -999, -999)
+  await new Promise(requestAnimationFrame)
+
   ctx.textAlign = 'left'
   ctx.textBaseline = 'middle'
   ctx.strokeStyle = borderColor
