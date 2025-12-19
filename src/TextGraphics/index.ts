@@ -1,15 +1,72 @@
 import { deepCopy, get_string_size } from 'hsu-utils'
 import loadImage from '../utils/loadImage'
-import drawCtx, { BackgroundStyle } from './drawCtx'
-import drawBorder, { BorderStyle } from './drawBorder'
-import drawText, { FontStyle } from './drawText'
+import drawCtx from './drawCtx'
+import drawBorder from './drawBorder'
+import drawText from './drawText'
 
-type Padding = number | [number, number] | [number, number, number, number]
+// 基础类型
+export type Padding = number | [number, number] | [number, number, number, number]
+export type Size = number | 'auto' | 'bgImg'
+export type Align = 'top' | 'center' | 'bottom'
+export type Radius = number | [number, number, number, number]
+export type Direction = 'vertical' | 'horizontal'
+export type Fill = 'ctx' | 'img'
 
-type Size = number | 'auto' | 'bgImg'
+// 渐变类型
+export interface LinearGradient {
+  [key: number]: string
+}
 
-type Align = 'top' | 'center' | 'bottom'
+// 文本相关类型
+export type TextAlign = 'left' | 'center' | 'right'
 
+export interface TextShadowStyle {
+  color?: string
+  blur?: number
+  offsetX?: number
+  offsetY?: number
+}
+
+export interface TextBorderStyle {
+  color?: string
+  width?: number
+}
+
+export interface Font {
+  size?: number
+  style?: string
+  weight?: string
+  family?: string
+}
+
+// 背景样式
+export interface BackgroundStyle {
+  color?: string | LinearGradient
+  colorDirection?: Direction
+  image?: string
+  imageSize?: [string, string] | string
+  imagePosition?: [number, number] | number
+  imageFill?: Fill
+}
+
+// 边框样式
+export interface BorderStyle {
+  color?: string
+  width?: number
+  radius?: Radius
+}
+
+// 字体样式
+export interface FontStyle {
+  font?: Font
+  color?: string | LinearGradient
+  textAlign?: TextAlign
+  letterSpacing?: number
+  border?: TextBorderStyle
+  shadow?: TextShadowStyle | TextShadowStyle[]
+}
+
+// 主配置接口
 export interface TextGraphicsOptions {
   content?: string | string[]
   borderStyle?: BorderStyle
@@ -37,7 +94,6 @@ export default async function TextGraphics(options: TextGraphicsOptions): Promis
     font = {
       size: 10,
       style: 'normal',
-      variant: 'normal',
       weight: 'normal',
       family: 'sans-serif'
     },
