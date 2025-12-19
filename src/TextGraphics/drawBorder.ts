@@ -1,4 +1,4 @@
-type Radius = number | [number, number, number, number]
+import type { Radius } from './index'
 
 export interface BorderStyle {
   color?: string
@@ -6,7 +6,7 @@ export interface BorderStyle {
   radius?: Radius
 }
 
-interface DrawBorderOptions {
+export interface DrawBorderOptions {
   ctx: CanvasRenderingContext2D
   width: number
   height: number

@@ -1,18 +1,19 @@
 import loadImage from '../utils/loadImage'
 
-type Padding = number | [number, number] | [number, number, number, number]
+// 基础类型
+export type Padding = number | [number, number] | [number, number, number, number]
+export type Direction = 'vertical' | 'horizontal'
+export type ImgAlign = 'start' | 'center' | 'end'
 
-type Direction = 'vertical' | 'horizontal'
-
-type ImgAlign = 'start' | 'center' | 'end'
-
-interface ImageItem {
+// 图片项接口
+export interface ImageItem {
   url: string
   width?: number
   height?: number
   zIndex?: number
 }
 
+// 内部使用的图片元素接口（不导出）
 interface ImageElement {
   image: HTMLImageElement
   width: number
@@ -124,9 +125,7 @@ function drawImg(options: DrawImgOptions) {
   }
 }
 
-/**
- * 绘制 ImageGraphics
- */
+// 主配置接口
 export interface ImageGraphicsOptions {
   imgs: string | ImageItem | Array<string | ImageItem>
   padding?: Padding

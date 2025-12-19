@@ -1,23 +1,5 @@
 import loadImage from '../utils/loadImage'
-
-type Fill = 'ctx' | 'img'
-
-type Radius = number | [number, number, number, number]
-
-type Direction = 'vertical' | 'horizontal'
-
-interface LinearGradient {
-  [key: number]: string
-}
-
-export interface BackgroundStyle {
-  color?: string | LinearGradient
-  colorDirection?: Direction
-  image?: string
-  imageSize?: [string, string] | string
-  imagePosition?: [number, number] | number
-  imageFill?: Fill
-}
+import type { BackgroundStyle, Radius } from './index'
 
 export interface DrawCtxOptions {
   ctx: CanvasRenderingContext2D

@@ -1,38 +1,6 @@
 import { deepCopy, get_string_size } from 'hsu-utils'
-
-type TextAlign = 'left' | 'center' | 'right'
-
-interface LinearGradient {
-  [key: number]: string
-}
-
-interface TextShadowStyle {
-  color?: string
-  blur?: number
-  offsetX?: number
-  offsetY?: number
-}
-
-interface TextBorderStyle {
-  color?: string
-  width?: number
-}
-
-interface Font {
-  size?: number
-  style?: string
-  weight?: string
-  family?: string
-}
-
-export interface FontStyle {
-  font?: Font
-  color?: string | LinearGradient
-  textAlign?: TextAlign
-  letterSpacing?: number
-  border?: TextBorderStyle
-  shadow?: TextShadowStyle | TextShadowStyle[]
-}
+import loadFont from '../utils/loadFont'
+import type { FontStyle, TextAlign, LinearGradient, Font } from './index'
 
 function _calculateLeft(maxTextLength: number, textLenth: number, textAlign: TextAlign) {
   let _left = 0
@@ -98,13 +66,9 @@ export default async function drawText(options: DrawTextOptions) {
   const { color: borderColor = '#000', width: borderWidth = 0 } = border
   const { style = 'normal', weight = 'normal', size = 10, family: fontFamily = 'sans-serif' } = font
 
-  await document.fonts.load(`${style} ${weight} ${size}px ${fontFamily}`)
+  await loadFont({ ctx, font, text: text[0] || '' })
 
   ctx.font = `${style} ${weight} ${size}px ${fontFamily}`
-
-  ctx.fillText(text[0] || '', -999, -999)
-  await new Promise(requestAnimationFrame)
-
   ctx.textAlign = 'left'
   ctx.textBaseline = 'middle'
   ctx.strokeStyle = borderColor
