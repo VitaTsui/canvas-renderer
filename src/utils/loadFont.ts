@@ -2,7 +2,7 @@ interface Font {
   style?: string
   weight?: string
   size?: number
-  fontFamily?: string
+  family?: string
 }
 
 export interface LoadFontOptions {
@@ -13,13 +13,13 @@ export interface LoadFontOptions {
 
 export default async function loadFont(options: LoadFontOptions) {
   const { ctx, font = {}, text } = options
-  const { style = 'normal', weight = 'normal', size = 10, fontFamily = 'sans-serif' } = font
+  const { style = 'normal', weight = 'normal', size = 10, family = 'sans-serif' } = font
 
-  await document.fonts.load(`${style} ${weight} ${size}px ${fontFamily}`)
+  await document.fonts.load(`${style} ${weight} ${size}px ${family}`)
 
   const _ctx = ctx || (document.createElement('canvas').getContext('2d') as CanvasRenderingContext2D)
 
-  _ctx.font = `${style} ${weight} ${size}px ${fontFamily}`
+  _ctx.font = `${style} ${weight} ${size}px ${family}`
   _ctx.fillText(text || '', -999, -999)
 
   await new Promise(requestAnimationFrame)
