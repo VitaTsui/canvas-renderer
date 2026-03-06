@@ -2,6 +2,13 @@ import { deepCopy, get_string_size } from 'hsu-utils'
 import loadFont from '../utils/loadFont'
 import type { FontStyle, TextAlign, LinearGradient, Font } from './index'
 
+/**
+ * 根据最大行宽与对齐方式，计算当前行文本的起始 x 坐标偏移
+ *
+ * @param maxTextLength 可用的最大文本宽度
+ * @param textLenth 当前行文本实际宽度
+ * @param textAlign 文本对齐方式
+ */
 function _calculateLeft(maxTextLength: number, textLenth: number, textAlign: TextAlign) {
   let _left = 0
 
@@ -15,15 +22,27 @@ function _calculateLeft(maxTextLength: number, textLenth: number, textAlign: Tex
   return _left
 }
 
+/**
+ * 单行文本绘制配置
+ */
 interface DrawRowText {
+  /** 2D 绘制上下文 */
   ctx: CanvasRenderingContext2D
+  /** 要绘制的文本内容（单行） */
   text: string
+  /** 文本起始 x 坐标 */
   left: number
+  /** 文本基线位置 y 坐标 */
   top: number
+  /** 字号，单位 px */
   size: number
+  /** 描边线宽 */
   borderWidth: number
+  /** 字符间距 */
   letterSpacing: number
+  /** 文本颜色，可以是纯色或线性渐变 */
   color: string | LinearGradient
+  /** 字体配置 */
   font: Font
 }
 function drawRowText(options: DrawRowText) {
@@ -51,15 +70,34 @@ function drawRowText(options: DrawRowText) {
   }
 }
 
+/**
+ * 多行文本绘制配置
+ */
 interface DrawTextOptions {
+  /** 2D 绘制上下文 */
   ctx: CanvasRenderingContext2D
+  /** 文本内容（多行数组，每个元素为一行） */
   text: string[]
+  /** 单行可用的最大宽度，影响对齐与截断 */
   maxTextLength?: number
+  /** 文本样式配置（颜色、字体、描边、阴影等） */
   fontStyle?: FontStyle
+  /** 文本整体相对画布顶部的偏移量 */
   top?: number
+  /** 文本整体相对画布左侧的偏移量 */
   left?: number
+  /** 行间距 */
   rowGap?: number
 }
+
+/**
+ * 在给定画布上下文中绘制多行文本，包括：
+ * - 文本对齐（left / center / right）
+ * - 字间距、行间距
+ * - 渐变文字、描边、阴影等效果
+ *
+ * @param options 文本绘制参数
+ */
 export default async function drawText(options: DrawTextOptions) {
   const { ctx, text, maxTextLength, fontStyle = {}, top = 0, left = 0, rowGap = 0 } = options
   const { color = '#000', textAlign = 'center', font = {}, border = {}, shadow, letterSpacing = 0 } = fontStyle

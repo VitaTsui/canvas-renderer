@@ -20,64 +20,108 @@ export interface LinearGradient {
 // 文本相关类型
 export type TextAlign = 'left' | 'center' | 'right'
 
+/** 文本阴影样式 */
 export interface TextShadowStyle {
+  /** 阴影颜色 */
   color?: string
+  /** 阴影模糊半径 */
   blur?: number
+  /** 阴影 x 方向偏移 */
   offsetX?: number
+  /** 阴影 y 方向偏移 */
   offsetY?: number
 }
 
+/** 描边样式 */
 export interface TextBorderStyle {
+  /** 描边颜色 */
   color?: string
+  /** 描边线宽 */
   width?: number
 }
 
+/** 字体配置 */
 export interface Font {
+  /** 字号，单位 px */
   size?: number
+  /** 字体样式，例如 normal / italic */
   style?: string
+  /** 字重，例如 normal / bold */
   weight?: string
+  /** 字体族名称，例如 sans-serif / Arial */
   family?: string
 }
 
-// 背景样式
+/** 背景样式 */
 export interface BackgroundStyle {
+  /** 背景颜色，可以是纯色或线性渐变 */
   color?: string | LinearGradient
+  /** 渐变方向 */
   colorDirection?: Direction
+  /** 背景图片地址 */
   image?: string
+  /** 背景图片尺寸，支持百分比和绝对值 */
   imageSize?: [string, string] | string
+  /** 背景图片位置，支持 [x, y] 或 单值 */
   imagePosition?: [number, number] | number
+  /** 背景图片填充方式：填满画布或按图片原尺寸 */
   imageFill?: Fill
 }
 
-// 边框样式
+/** 边框样式 */
 export interface BorderStyle {
+  /** 边框颜色 */
   color?: string
+  /** 边框线宽 */
   width?: number
+  /** 边框圆角 */
   radius?: Radius
 }
 
-// 字体样式
+/** 文本字体样式 */
 export interface FontStyle {
+  /** 字体配置 */
   font?: Font
+  /** 文本颜色，可以是纯色或线性渐变 */
   color?: string | LinearGradient
+  /** 文本对齐方式（相对于可用宽度） */
   textAlign?: TextAlign
+  /** 字符间距 */
   letterSpacing?: number
+  /** 文本描边样式 */
   border?: TextBorderStyle
+  /** 文本阴影，可传单个或数组以实现多重阴影 */
   shadow?: TextShadowStyle | TextShadowStyle[]
 }
 
-// 主配置接口
+/**
+ * `TextGraphics` 主配置
+ */
 export interface TextGraphicsOptions {
+  /** 文本内容，单行或多行数组 */
   content?: string | string[]
+  /** 边框样式 */
   borderStyle?: BorderStyle
+  /** 背景样式 */
   backgroundStyle?: BackgroundStyle
+  /** 文本字体及颜色样式 */
   fontStyle?: FontStyle
+  /** 文本与边框/背景之间的内边距（含边框） */
   padding?: Padding
+  /** 画布尺寸：数字为固定值，`auto` 为根据文本计算，`bgImg` 为跟随背景图尺寸 */
   size?: Size | [Size, Size]
+  /** 文本在固定高度中的垂直对齐方式 */
   align?: Align
+  /** 行间距 */
   rowGap?: number
 }
 
+/**
+ * 根据文本、背景、边框等配置生成文字画布
+ *
+ * @param options 文本图形配置
+ * @returns 已绘制完成内容的 `HTMLCanvasElement`
+ */
 export default async function TextGraphics(options: TextGraphicsOptions): Promise<HTMLCanvasElement> {
   const {
     content,

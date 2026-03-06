@@ -1381,6 +1381,11 @@ data-urls@^4.0.0:
     whatwg-mimetype "^3.0.0"
     whatwg-url "^12.0.0"
 
+dayjs@^1.11.19:
+  version "1.11.19"
+  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.11.19.tgz#15dc98e854bb43917f12021806af897c58ae2938"
+  integrity sha512-t5EcLVS6QPBNqM2z8fakk/NKel+Xzshgt8FFKAn+qwlD1pzZWxh0nVCrvFK7ZDb6XucZeF9z8C7CBWTRIVApAw==
+
 debug@4, debug@^4.1.0, debug@^4.1.1:
   version "4.3.4"
   resolved "https://registry.npmjs.org/debug/-/debug-4.3.4.tgz"
@@ -1737,11 +1742,12 @@ has@^1.0.3:
   dependencies:
     function-bind "^1.1.1"
 
-hsu-utils@^0.0.48:
-  version "0.0.48"
-  resolved "https://registry.npmjs.org/hsu-utils/-/hsu-utils-0.0.48.tgz#fd417bb8b9b25dea3818ba1dfa3626f1daeb5ba1"
-  integrity sha512-3F2J1CW8x7ztEPJpgavo0I+pp5TJSnaZlDLEeenAtou5LqVQFw8WZ0CO8mmdjtDbvEOgPurCTUOpnbH/0ewxqA==
+hsu-utils@^0.0.54:
+  version "0.0.54"
+  resolved "https://registry.yarnpkg.com/hsu-utils/-/hsu-utils-0.0.54.tgz#2b1546db55bfe2f68e23171eaeb35fee07889acd"
+  integrity sha512-L1I0LWl/9V31lWiWF+z3nnVg1P3wh55dSwV1C0lpXrzNj2O8Q51EBAYzKgcpHuqLJuqOxzFfB3N5/Q5/RqhoHw==
   dependencies:
+    dayjs "^1.11.19"
     pdfjs-dist "2.13.216"
 
 html-encoding-sniffer@^3.0.0:

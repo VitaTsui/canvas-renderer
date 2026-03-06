@@ -1,18 +1,36 @@
 import type { Radius } from './index'
 
+/**
+ * 边框样式配置
+ */
 export interface BorderStyle {
+  /** 边框颜色 */
   color?: string
+  /** 边框线宽 */
   width?: number
+  /** 边框圆角，支持单值或 [lt, rt, rb, lb] */
   radius?: Radius
 }
 
+/**
+ * 边框绘制配置
+ */
 export interface DrawBorderOptions {
+  /** 用于绘制边框的 2D 上下文 */
   ctx: CanvasRenderingContext2D
+  /** 绘制区域宽度 */
   width: number
+  /** 绘制区域高度 */
   height: number
+  /** 边框样式 */
   borderStyle?: BorderStyle
 }
 
+/**
+ * 根据配置在画布上绘制矩形圆角边框
+ *
+ * @param options 边框绘制参数
+ */
 export default function drawBorder(options: DrawBorderOptions) {
   const { ctx, width, height, borderStyle = {} } = options
   const { color: borderColor, width: borderWidth = 0, radius: borderRadius = 0 } = borderStyle
