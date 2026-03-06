@@ -5,11 +5,17 @@ export type Padding = number | [number, number] | [number, number, number, numbe
 export type Direction = 'vertical' | 'horizontal'
 export type ImgAlign = 'start' | 'center' | 'end'
 
-// 图片项接口
+/**
+ * 图片项配置
+ */
 export interface ImageItem {
+  /** 图片地址 */
   url: string
+  /** 绘制宽度，不传则使用图片本身宽度 */
   width?: number
+  /** 绘制高度，不传则使用图片本身高度 */
   height?: number
+  /** 层级，数值越大越靠上 */
   zIndex?: number
 }
 
@@ -22,9 +28,7 @@ interface ImageElement {
   index: number
 }
 
-/**
- * 获取最大图片宽度
- */
+/** 获取最大图片宽度 / 水平总宽度（包含所有图片宽度） */
 function get_img_maxWidth(images: ImageElement[], direction: Direction) {
   let width = 0
 
@@ -41,9 +45,7 @@ function get_img_maxWidth(images: ImageElement[], direction: Direction) {
   return width
 }
 
-/**
- * 获取最大图片高度
- */
+/** 获取最大图片高度 / 垂直总高度（包含所有图片高度） */
 function get_img_maxHeight(images: ImageElement[], direction: Direction) {
   let height = 0
 
@@ -61,17 +63,26 @@ function get_img_maxHeight(images: ImageElement[], direction: Direction) {
 }
 
 /**
- * 绘制图片
+ * 绘制图片到画布
  */
 interface DrawImgOptions {
+  /** 绘制使用的 2D 上下文 */
   ctx: CanvasRenderingContext2D
+  /** 最大可用宽度（不包含 padding），用于水平对齐计算 */
   maxWidth?: number
+  /** 最大可用高度（不包含 padding），用于垂直对齐计算 */
   maxHeight?: number
+  /** 已经加载好的图片元素列表 */
   images: ImageElement[]
+  /** 内容距画布顶部的偏移量 */
   top?: number
+  /** 内容距画布左侧的偏移量 */
   left?: number
+  /** 图片之间的间距 */
   gap?: number
+  /** 布局方向，水平或垂直 */
   direction?: Direction
+  /** 单行/单列内部的图片对齐方式 */
   imgAlign?: ImgAlign
 }
 function drawImg(options: DrawImgOptions) {
@@ -125,16 +136,37 @@ function drawImg(options: DrawImgOptions) {
   }
 }
 
-// 主配置接口
+/**
+ * `ImageGraphics` 主配置
+ */
 export interface ImageGraphicsOptions {
+  /**
+   * 图片资源：
+   * - 字符串：图片地址
+   * - `ImageItem`：带尺寸与层级的图片配置
+   * - 数组：可混合传入
+   */
   imgs: string | ImageItem | Array<string | ImageItem>
+  /** 画布内边距，上右下左，支持简写 */
   padding?: Padding
+  /** 图片排列方向 */
   direction?: Direction
+  /** 图片之间的间距 */
   gap?: number
+  /** 每行/列中图片的对齐方式 */
   imgAlign?: ImgAlign
+  /** 画布宽度，`auto` 表示根据图片自动计算 */
   width?: number | 'auto'
+  /** 画布高度，`auto` 表示根据图片自动计算 */
   height?: number | 'auto'
 }
+
+/**
+ * 根据配置生成图片排布的画布
+ *
+ * @param options 图片排布及画布相关配置
+ * @returns 已绘制完成图片的 `HTMLCanvasElement`
+ */
 export default async function ImageGraphics(options: ImageGraphicsOptions) {
   const {
     imgs,

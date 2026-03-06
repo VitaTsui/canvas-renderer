@@ -14,7 +14,7 @@
     "noEmit": false,
     "jsx": "react",
     "newLine": "lf",
-    "removeComments": true,
+    "removeComments": false,
   },
   "include": ["../src/**/*.ts", "../src/**/*.tsx"],
   "exclude": ["node_modules", "../src/**/__tests__"]

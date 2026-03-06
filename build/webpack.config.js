@@ -42,10 +42,16 @@ const config = {
     minimizer: devMode
       ? []
       : [
-          // 压缩js代码
-          // webpack v5 使用内置的TerserJSPlugin替代UglifyJsPlugin，因为UglifyJsPlugin不支持ES6
+          // 压缩 js 代码，但保留注释（例如头部 Banner、JSDoc 等）
+          // webpack v5 使用内置的 TerserJSPlugin 替代 UglifyJsPlugin，因为 UglifyJsPlugin 不支持 ES6
           new TerserJSPlugin({
-            parallel: true // 使用多进程并行运行
+            parallel: true, // 使用多进程并行运行
+            extractComments: false, // 不额外抽取到 .LICENSE.txt 文件，直接保留在 bundle 中
+            terserOptions: {
+              format: {
+                comments: 'all', // 保留所有注释，如果只想保留以 /*! 开头的，可以改为 'some'
+              },
+            },
           }),
         ]
   }

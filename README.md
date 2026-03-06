@@ -17,6 +17,7 @@ yarn add @hsu-canvas/renderer
 - [**TextGraphics**](#textgraphics) 文本渲染
 - [**ImageGraphics**](#imagegraphics) 图片渲染
 - [**loadImage**](#loadimage) 异步加载图片并缓存
+- [**loadFont**](#loadfont) 预加载字体，避免首次渲染闪烁
 
 ## TextGraphics
 
@@ -143,15 +144,15 @@ interface LinearGradient {
 
 ### ImageGraphicsOptions
 
-| 参数      | 说明        | 类型                                                            | 默认值   | 备注                  |
-| --------- | ----------- | --------------------------------------------------------------- | -------- | --------------------- |
-| imgs      | 图片        | string \| [ImageItem](#imageitem) \| Array<string \| ImageItem> | -        | 必填                  |
-| padding   | 内边距      | [Padding](#paddingimage)                                        | 0        | -                     |
-| direction | 布局样式    | [Direction](#directionimage)                                    | vertical | -                     |
-| gap       | 间隔        | number                                                          | 0        | -                     |
-| imgAlign  | 对齐方式    | [ImgAlign](#imgalign)                                           | center   | -                     |
-| width     | canvas 宽度 | number \| 'auto'                                                | auto     | auto 时为图片最大宽度 |
-| height    | canvas 高度 | number \| 'auto'                                                | auto     | auto 时为图片最大高度 |
+| 参数 | 说明 | 类型 | 默认值 | 备注 |
+| --- | --- | --- | --- | --- |
+| imgs | 图片 | string \| [ImageItem](#imageitem) \| Array<string \| ImageItem> | - | 必填 |
+| padding | 内边距 | [Padding](#paddingimage) | 0 | - |
+| direction | 布局样式 | [Direction](#directionimage) | vertical | - |
+| gap | 间隔 | number | 0 | - |
+| imgAlign | 对齐方式 | [ImgAlign](#imgalign) | center | - |
+| width | canvas 宽度 | number \| 'auto' | auto | auto 时：vertical 为「图片最大宽度 + padding + 垂直排列额外 gap」，horizontal 为「所有图片宽度之和 + padding + 水平排列额外 gap」 |
+| height | canvas 高度 | number \| 'auto' | auto | auto 时：horizontal 为「图片最大高度 + padding + 水平排列额外 gap」，vertical 为「所有图片高度之和 + padding + 垂直排列额外 gap」 |
 
 ### ImageItem
 
@@ -179,6 +180,40 @@ interface LinearGradient {
 | 参数 | 说明     | 类型   | 默认值 | 备注 |
 | ---- | -------- | ------ | ------ | ---- |
 | url  | 图片地址 | string | -      | 必填 |
+
+## loadFont
+
+用于在绘制文字前预加载字体，避免首次渲染时出现闪烁或回退字体。
+
+> 函数签名（TS）：`loadFont(options: LoadFontOptions): Promise<void>`
+
+| 参数 | 说明 | 类型 | 默认值 | 备注 |
+| --- | --- | --- | --- | --- |
+| options | 字体加载配置项 | [LoadFontOptions](#loadfontoptions) | - | ctx 不传时内部会创建临时 canvas 进行一次离屏文字绘制触发 |
+
+其中 `Font` 结构与 [TextGraphics](#font) 中的 `Font` 一致：
+
+```ts
+interface Font {
+  size?: number // 字体大小（px），默认 10
+  style?: string // 字体样式，默认 'normal'
+  weight?: string // 字体粗细，默认 'normal'
+  family?: string // 字体系列，默认 'sans-serif'
+}
+```
+
+### LoadFontOptions
+
+```ts
+interface LoadFontOptions {
+  /** 要设置字体并进行预渲染的 2D 上下文，不传则内部创建临时 canvas */
+  ctx?: CanvasRenderingContext2D
+  /** 字体配置，不传则使用默认字体 */
+  font?: Font
+  /** 用于触发字体渲染的一段文字，通常可以传入实际要渲染的文本 */
+  text?: string
+}
+```
 
 ## License
 
