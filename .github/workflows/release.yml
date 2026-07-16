@@ -1,0 +1,59 @@
+name: release
+on:
+  push:
+    branches: [main]
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 读取版本号并检查 tag
+        id: ver
+        run: |
+          TAG="v$(node -p "require('./package.json').version")"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          if git rev-parse "refs/tags/$TAG" >/dev/null 2>&1; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            echo "tag $TAG 已存在，跳过发布"
+          fi
+
+      - uses: actions/setup-node@v4
+        if: steps.ver.outputs.skip != 'true'
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org
+
+      - name: 检查 npm 上是否已存在该版本
+        if: steps.ver.outputs.skip != 'true'
+        id: npmver
+        run: |
+          NAME=$(node -p "require('./package.json').name")
+          VERSION=$(node -p "require('./package.json').version")
+          if npm view "$NAME@$VERSION" version >/dev/null 2>&1; then
+            echo "published=true" >> "$GITHUB_OUTPUT"
+            echo "$NAME@$VERSION 已在 npm 上，跳过 publish"
+          fi
+
+      - name: 安装依赖并构建
+        if: steps.ver.outputs.skip != 'true' && steps.npmver.outputs.published != 'true'
+        run: |
+          yarn install --frozen-lockfile
+          yarn build
+
+      - name: 发布 npm
+        if: steps.ver.outputs.skip != 'true' && steps.npmver.outputs.published != 'true'
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: 打 tag 并生成 Release
+        if: steps.ver.outputs.skip != 'true'
+        run: gh release create "${{ steps.ver.outputs.tag }}" --generate-notes --target main
+        env:
+          GH_TOKEN: ${{ github.token }}
