@@ -1,0 +1,23 @@
+name: branch-flow
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+jobs:
+  branch-flow:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 校验合并流向
+        env:
+          BASE: ${{ github.base_ref }}
+          HEAD: ${{ github.head_ref }}
+        run: |
+          if [ "$BASE" = "main" ] && [ "$HEAD" != "develop" ]; then
+            echo "::error::main 只允许从 develop 合并，当前来源分支：$HEAD"
+            exit 1
+          fi
+          if [ "$BASE" != "main" ] && [ "$BASE" != "develop" ]; then
+            echo "::error::功能分支只允许合并到 develop，当前目标分支：$BASE"
+            exit 1
+          fi
+          echo "合并流向合法：$HEAD -> $BASE"
