@@ -2,25 +2,25 @@ import loadImage from '../utils/loadImage'
 import type { BackgroundStyle, Radius } from './index'
 
 /**
- * 绘制背景上下文配置
+ * Background drawing context options
  */
 export interface DrawCtxOptions {
-  /** 用于绘制背景的 2D 上下文 */
+  /** 2D context used to draw the background */
   ctx: CanvasRenderingContext2D
-  /** 背景样式（颜色 / 渐变 / 图片等），不传则不绘制背景 */
+  /** Background style (color / gradient / image, etc.); no background is drawn if omitted */
   backgroundStyle?: BackgroundStyle
-  /** 背景圆角，支持单值或 [lt, rt, rb, lb] */
+  /** Background corner radius, supports a single value or [lt, rt, rb, lb] */
   radius?: Radius
-  /** 绘制区域宽度 */
+  /** Width of the drawing area */
   width: number
-  /** 绘制区域高度 */
+  /** Height of the drawing area */
   height: number
 }
 
 /**
- * 按配置在指定区域内绘制背景（纯色 / 渐变 / 图片），并支持圆角裁剪
+ * Draw the background (solid color / gradient / image) in the given area according to the configuration, with rounded-corner clipping support
  *
- * @param options 背景绘制参数
+ * @param options Background drawing options
  */
 export default async function drawCtx(options: DrawCtxOptions) {
   const { ctx, width, height, radius = 0, backgroundStyle = {} } = options
@@ -48,27 +48,27 @@ export default async function drawCtx(options: DrawCtxOptions) {
     ;[lt, rt, rb, lb] = [radius, radius, radius, radius]
   }
 
-  // 左上圆角
+  // Top-left rounded corner
   if (lt) {
     ctx.arc(x + lt, y + lt, lt, PI, PI * 1.5)
   } else {
     ctx.moveTo(x, y)
   }
-  // 右上圆角
+  // Top-right rounded corner
   if (rt) {
     ctx.lineTo(x + width - rt, y)
     ctx.arc(x + width - rt, y + rt, rt, PI * 1.5, 0)
   } else {
     ctx.lineTo(x + width, y)
   }
-  // 右下圆角
+  // Bottom-right rounded corner
   if (rb) {
     ctx.lineTo(x + width, y + height - rb)
     ctx.arc(x + width - rb, y + height - rb, rb, 0, PI * 0.5)
   } else {
     ctx.lineTo(x + width, y + height)
   }
-  // 左下圆角
+  // Bottom-left rounded corner
   if (lb) {
     ctx.lineTo(x + lb, y + height)
     ctx.arc(x + lb, y + height - lb, lb, PI * 0.5, PI)

@@ -4,7 +4,7 @@ import drawCtx from './drawCtx'
 import drawBorder from './drawBorder'
 import drawText from './drawText'
 
-// 基础类型
+// Basic types
 export type Padding = number | [number, number] | [number, number, number, number]
 export type Size = number | 'auto' | 'bgImg'
 export type Align = 'top' | 'center' | 'bottom'
@@ -12,115 +12,114 @@ export type Radius = number | [number, number, number, number]
 export type Direction = 'vertical' | 'horizontal'
 export type Fill = 'ctx' | 'img'
 
-// 渐变类型
+// Gradient type
 export interface LinearGradient {
   [key: number]: string
 }
 
-// 文本相关类型
+// Text related types
 export type TextAlign = 'left' | 'center' | 'right'
 
-/** 文本阴影样式 */
+/** Text shadow style */
 export interface TextShadowStyle {
-  /** 阴影颜色 */
+  /** Shadow color */
   color?: string
-  /** 阴影模糊半径 */
+  /** Shadow blur radius */
   blur?: number
-  /** 阴影 x 方向偏移 */
+  /** Shadow offset along the x axis */
   offsetX?: number
-  /** 阴影 y 方向偏移 */
+  /** Shadow offset along the y axis */
   offsetY?: number
 }
 
-/** 描边样式 */
+/** Text stroke style */
 export interface TextBorderStyle {
-  /** 描边颜色 */
+  /** Stroke color */
   color?: string
-  /** 描边线宽 */
+  /** Stroke line width */
   width?: number
 }
 
-/** 字体配置 */
+/** Font configuration */
 export interface Font {
-  /** 字号，单位 px */
+  /** Font size, in px */
   size?: number
-  /** 字体样式，例如 normal / italic */
+  /** Font style, e.g. normal / italic */
   style?: string
-  /** 字重，例如 normal / bold */
+  /** Font weight, e.g. normal / bold */
   weight?: string
-  /** 字体族名称，例如 sans-serif / Arial */
+  /** Font family name, e.g. sans-serif / Arial */
   family?: string
 }
 
-/** 背景样式 */
+/** Background style */
 export interface BackgroundStyle {
-  /** 背景颜色，可以是纯色或线性渐变 */
+  /** Background color, either a solid color or a linear gradient */
   color?: string | LinearGradient
-  /** 渐变方向 */
+  /** Gradient direction */
   colorDirection?: Direction
-  /** 背景图片地址 */
+  /** Background image URL */
   image?: string
-  /** 背景图片尺寸，支持百分比和绝对值 */
+  /** Background image size, supports percentages and absolute values */
   imageSize?: [string, string] | string
-  /** 背景图片位置，支持 [x, y] 或 单值 */
+  /** Background image position, supports [x, y] or a single value */
   imagePosition?: [number, number] | number
-  /** 背景图片填充方式：填满画布或按图片原尺寸 */
+  /** Background image fill mode: fill the canvas or use the image's original size */
   imageFill?: Fill
 }
 
-/** 边框样式 */
+/** Border style */
 export interface BorderStyle {
-  /** 边框颜色 */
+  /** Border color */
   color?: string
-  /** 边框线宽 */
+  /** Border line width */
   width?: number
-  /** 边框圆角 */
+  /** Border corner radius */
   radius?: Radius
 }
 
-/** 文本字体样式 */
+/** Text font style */
 export interface FontStyle {
-  /** 字体配置 */
+  /** Font configuration */
   font?: Font
-  /** 文本颜色，可以是纯色或线性渐变 */
+  /** Text color, either a solid color or a linear gradient */
   color?: string | LinearGradient
-  /** 文本对齐方式（相对于可用宽度） */
+  /** Text alignment (relative to the available width) */
   textAlign?: TextAlign
-  /** 字符间距 */
+  /** Letter spacing */
   letterSpacing?: number
-  /** 文本描边样式 */
+  /** Text stroke style */
   border?: TextBorderStyle
-  /** 文本阴影，可传单个或数组以实现多重阴影 */
+  /** Text shadow; pass a single value or an array for multiple shadows */
   shadow?: TextShadowStyle | TextShadowStyle[]
 }
 
 /**
- * `TextGraphics` 主配置
+ * Main options of `TextGraphics`
  */
 export interface TextGraphicsOptions {
-  /** 文本内容，单行或多行数组 */
+  /** Text content, a single line or an array of lines */
   content?: string | string[]
-  /** 边框样式 */
+  /** Border style */
   borderStyle?: BorderStyle
-  /** 背景样式 */
+  /** Background style */
   backgroundStyle?: BackgroundStyle
-  /** 文本字体及颜色样式 */
+  /** Text font and color style */
   fontStyle?: FontStyle
-  /** 文本与边框/背景之间的内边距（含边框） */
+  /** Padding between the text and the border/background (border included) */
   padding?: Padding
-  /** 画布尺寸：数字为固定值，`auto` 为根据文本计算，`bgImg` 为跟随背景图尺寸 */
+  /** Canvas size: a number for a fixed value, `auto` to compute from the text, `bgImg` to follow the background image size */
   size?: Size | [Size, Size]
-  /** 文本在固定高度中的垂直对齐方式 */
+  /** Vertical alignment of the text within a fixed height */
   align?: Align
-  /** 行间距 */
+  /** Row gap between lines */
   rowGap?: number
 }
 
 /**
- * 根据文本、背景、边框等配置生成文字画布
- *
- * @param options 文本图形配置
- * @returns 已绘制完成内容的 `HTMLCanvasElement`
+ * Render text to a canvas, supporting multi-line text, border, background (solid color / gradient / image), font styles, text stroke and shadow
+ * @param options Text rendering options, see TextGraphicsOptions
+ * @returns The rendered `HTMLCanvasElement`
  */
 export default async function TextGraphics(options: TextGraphicsOptions): Promise<HTMLCanvasElement> {
   const {

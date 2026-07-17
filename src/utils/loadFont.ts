@@ -1,31 +1,34 @@
 /**
- * 字体配置
+ * Font configuration
  */
 interface Font {
-  /** 字体样式，例如 normal / italic */
+  /** Font style, e.g. normal / italic */
   style?: string
-  /** 字重，例如 normal / bold / 100~900 */
+  /** Font weight, e.g. normal / bold / 100~900 */
   weight?: string
-  /** 字号，单位 px */
+  /** Font size, in px */
   size?: number
-  /** 字体族名称，例如 sans-serif / Arial */
+  /** Font family name, e.g. sans-serif / Arial */
   family?: string
 }
 
 /**
- * 加载字体的配置项
+ * Options for loading a font
  */
 export interface LoadFontOptions {
-  /** 要设置字体并进行预渲染的 2D 上下文，不传则内部创建临时 canvas */
+  /** 2D context to set the font on and pre-render with; a temporary canvas is created internally if omitted */
   ctx?: CanvasRenderingContext2D
-  /** 字体配置，不传则使用默认字体 */
+  /** Font configuration; the default font is used if omitted */
   font?: Font
-  /** 用于触发字体渲染的一段文字，通常可以传入实际要渲染的文本 */
+  /** A piece of text used to trigger font rendering, usually the actual text to be rendered */
   text?: string
 }
 
 /**
- * 预加载指定字体，确保后续绘制文字时不会出现闪烁或样式错误
+ * Preload the given font, ensuring later text drawing does not flicker or fall back to a wrong style
+ * @param options.ctx Canvas context used for warm-up; an internal offscreen canvas is used if not provided
+ * @param options.font Font configuration (style / weight / size / family)
+ * @param options.text Warm-up text
  */
 export default async function loadFont(options: LoadFontOptions) {
   const { ctx, font = {}, text } = options
@@ -35,8 +38,10 @@ export default async function loadFont(options: LoadFontOptions) {
 
   const _ctx = ctx || (document.createElement('canvas').getContext('2d') as CanvasRenderingContext2D)
 
+  // Draw the text once outside the visible area to warm up the font, forcing the browser to actually load and apply it (not debug code)
   _ctx.font = `${style} ${weight} ${size}px ${family}`
   _ctx.fillText(text || '', -999, -999)
 
+  // Wait one frame to ensure the font has taken effect before returning
   await new Promise(requestAnimationFrame)
 }
