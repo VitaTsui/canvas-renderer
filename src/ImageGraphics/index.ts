@@ -1,12 +1,12 @@
 import loadImage from '../utils/loadImage'
 
-// 基础类型
+// Basic types
 export type Padding = number | [number, number] | [number, number, number, number]
 export type Direction = 'vertical' | 'horizontal'
 export type ImgAlign = 'start' | 'center' | 'end'
 
 /**
- * 图片项配置
+ * Image item options
  */
 export interface ImageItem {
   /** 图片地址 */
@@ -19,7 +19,7 @@ export interface ImageItem {
   zIndex?: number
 }
 
-// 内部使用的图片元素接口（不导出）
+// Internal image element interface (not exported)
 interface ImageElement {
   image: HTMLImageElement
   width: number
@@ -28,7 +28,9 @@ interface ImageElement {
   index: number
 }
 
-/** 获取最大图片宽度 / 水平总宽度（包含所有图片宽度） */
+/**
+ * Calculate the canvas content width: the sum of all image widths for horizontal layout, or the maximum image width for vertical layout
+ */
 function get_img_maxWidth(images: ImageElement[], direction: Direction) {
   let width = 0
 
@@ -45,7 +47,9 @@ function get_img_maxWidth(images: ImageElement[], direction: Direction) {
   return width
 }
 
-/** 获取最大图片高度 / 垂直总高度（包含所有图片高度） */
+/**
+ * Calculate the canvas content height: the maximum image height for horizontal layout, or the sum of all image heights for vertical layout
+ */
 function get_img_maxHeight(images: ImageElement[], direction: Direction) {
   let height = 0
 
@@ -62,9 +66,6 @@ function get_img_maxHeight(images: ImageElement[], direction: Direction) {
   return height
 }
 
-/**
- * 绘制图片到画布
- */
 interface DrawImgOptions {
   /** 绘制使用的 2D 上下文 */
   ctx: CanvasRenderingContext2D
@@ -85,6 +86,9 @@ interface DrawImgOptions {
   /** 单行/单列内部的图片对齐方式 */
   imgAlign?: ImgAlign
 }
+/**
+ * Draw images onto the canvas one by one according to the layout direction and alignment
+ */
 function drawImg(options: DrawImgOptions) {
   const {
     ctx,
@@ -137,7 +141,7 @@ function drawImg(options: DrawImgOptions) {
 }
 
 /**
- * `ImageGraphics` 主配置
+ * Main options of `ImageGraphics`
  */
 export interface ImageGraphicsOptions {
   /**
@@ -162,10 +166,9 @@ export interface ImageGraphicsOptions {
 }
 
 /**
- * 根据配置生成图片排布的画布
- *
- * @param options 图片排布及画布相关配置
- * @returns 已绘制完成图片的 `HTMLCanvasElement`
+ * Compose one or more images onto a single canvas in horizontal / vertical layout, supporting gap, alignment and stacking order (zIndex)
+ * @param options Image rendering options, see ImageGraphicsOptions
+ * @returns The rendered `HTMLCanvasElement`
  */
 export default async function ImageGraphics(options: ImageGraphicsOptions) {
   const {

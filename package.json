@@ -1,8 +1,20 @@
 {
   "name": "@hsu-canvas/renderer",
   "version": "0.0.14",
-  "description": "some cesium utils",
-  "repository": "git@github.com:VitaTsui/canvas-renderer.git",
+  "description": "Canvas 渲染工具集：富样式文本渲染（TextGraphics）、图片合成渲染（ImageGraphics）与图片/字体加载工具",
+  "keywords": [
+    "canvas",
+    "renderer",
+    "text",
+    "image",
+    "graphics",
+    "offscreen"
+  ],
+  "homepage": "https://github.com/VitaTsui/canvas-renderer#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VitaTsui/canvas-renderer.git"
+  },
   "author": "VitaHsu <vitahsu7@gmail.com>",
   "license": "MIT",
   "main": "lib/index.js",

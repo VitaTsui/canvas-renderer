@@ -1,18 +1,43 @@
-# [Canvas Renderer](https://github.com/VitaTsui/canvas-renderer#canvas-renderer)
+# @hsu-canvas/renderer
 
-## 前言
+[![npm version](https://img.shields.io/npm/v/@hsu-canvas/renderer.svg)](https://www.npmjs.com/package/@hsu-canvas/renderer)
+[![license](https://img.shields.io/npm/l/@hsu-canvas/renderer.svg)](./LICENSE)
 
-`canvas-renderer` 一些生成 canvas 的渲染器
+Canvas 渲染工具集：把富样式文本（边框 / 背景 / 渐变 / 阴影）与多张图片渲染成 `HTMLCanvasElement`，并提供图片与字体的异步加载工具。
 
 ## 安装
 
-```sh
-npm install --save @hsu-canvas/renderer
+```bash
+npm install @hsu-canvas/renderer
 # 或
 yarn add @hsu-canvas/renderer
 ```
 
-## 方法
+## 使用
+
+```ts
+import { TextGraphics, ImageGraphics, loadImage, loadFont } from "@hsu-canvas/renderer";
+
+// 文本渲染：返回 Promise<HTMLCanvasElement>
+const textCanvas = await TextGraphics({
+  content: ["第一行", "第二行"],
+  fontStyle: { font: { size: 16 }, color: "#333" },
+  backgroundStyle: { color: "#fff" },
+  padding: 8,
+  rowGap: 4,
+});
+
+// 图片合成：返回 Promise<HTMLCanvasElement>
+const imageCanvas = await ImageGraphics({
+  imgs: ["https://example.com/a.png", { url: "https://example.com/b.png", zIndex: 1 }],
+  direction: "horizontal",
+  gap: 8,
+});
+
+document.body.append(textCanvas, imageCanvas);
+```
+
+## API
 
 - [**TextGraphics**](#textgraphics) 文本渲染
 - [**ImageGraphics**](#imagegraphics) 图片渲染
@@ -21,9 +46,7 @@ yarn add @hsu-canvas/renderer
 
 ## TextGraphics
 
-| 参数    | 说明         | 类型                                        | 默认值 | 备注 |
-| ------- | ------------ | ------------------------------------------- | ------ | ---- |
-| options | 文本渲染参数 | [TextGraphicsOptions](#textgraphicsoptions) | -      | -    |
+`(options: TextGraphicsOptions) => Promise<HTMLCanvasElement>`
 
 ### TextGraphicsOptions
 
@@ -138,9 +161,7 @@ interface LinearGradient {
 
 ## ImageGraphics
 
-| 参数    | 说明         | 类型                 | 默认值 | 备注 |
-| ------- | ------------ | -------------------- | ------ | ---- |
-| options | 图片渲染参数 | ImageGraphicsOptions | -      | -    |
+`(options: ImageGraphicsOptions) => Promise<HTMLCanvasElement>`
 
 ### ImageGraphicsOptions
 
@@ -177,44 +198,37 @@ interface LinearGradient {
 
 ## loadImage
 
+`(url: string) => Promise<HTMLImageElement>`
+
+异步加载图片；同一 url 的结果会被缓存，重复加载直接复用。
+
 | 参数 | 说明     | 类型   | 默认值 | 备注 |
 | ---- | -------- | ------ | ------ | ---- |
 | url  | 图片地址 | string | -      | 必填 |
 
 ## loadFont
 
-用于在绘制文字前预加载字体，避免首次渲染时出现闪烁或回退字体。
+`(options: LoadFontOptions) => Promise<void>`
 
-> 函数签名（TS）：`loadFont(options: LoadFontOptions): Promise<void>`
+在绘制文字前预加载字体（`document.fonts.load` + 离屏预热），避免首次渲染时出现闪烁或回退字体。
 
-| 参数 | 说明 | 类型 | 默认值 | 备注 |
-| --- | --- | --- | --- | --- |
-| options | 字体加载配置项 | [LoadFontOptions](#loadfontoptions) | - | ctx 不传时内部会创建临时 canvas 进行一次离屏文字绘制触发 |
+| 参数 | 说明          | 类型                     | 默认值 | 备注 |
+| ---- | ------------- | ------------------------ | ------ | ---- |
+| ctx  | Canvas 上下文 | CanvasRenderingContext2D | -      | 不传则使用内部离屏 canvas |
+| font | 字体配置      | [Font](#font)            | -      | 结构与 [TextGraphics](#font) 的 `Font` 一致 |
+| text | 预热文本      | string                   | -      | 通常传入实际要渲染的文本 |
 
-其中 `Font` 结构与 [TextGraphics](#font) 中的 `Font` 一致：
+## 开发
 
-```ts
-interface Font {
-  size?: number // 字体大小（px），默认 10
-  style?: string // 字体样式，默认 'normal'
-  weight?: string // 字体粗细，默认 'normal'
-  family?: string // 字体系列，默认 'sans-serif'
-}
+```bash
+yarn          # 安装依赖
+yarn build    # 构建 es/ + lib/ + dist/
 ```
 
-### LoadFontOptions
+## 贡献
 
-```ts
-interface LoadFontOptions {
-  /** 要设置字体并进行预渲染的 2D 上下文，不传则内部创建临时 canvas */
-  ctx?: CanvasRenderingContext2D
-  /** 字体配置，不传则使用默认字体 */
-  font?: Font
-  /** 用于触发字体渲染的一段文字，通常可以传入实际要渲染的文本 */
-  text?: string
-}
-```
+日常开发在 `develop` 分支进行（feature 分支合入 `develop`），`main` 只接受来自 `develop` 的 PR；合入 `main` 后按 `package.json` 版本自动打 tag 并发布 npm。PR 标题遵循 [Conventional Commits](https://www.conventionalcommits.org/)。
 
 ## License
 
-MIT
+[MIT](./LICENSE) © VitaHsu

@@ -25,7 +25,10 @@ export interface LoadFontOptions {
 }
 
 /**
- * 预加载指定字体，确保后续绘制文字时不会出现闪烁或样式错误
+ * Preload the given font, ensuring later text drawing does not flicker or fall back to a wrong style
+ * @param options.ctx Canvas context used for warm-up; an internal offscreen canvas is used if not provided
+ * @param options.font Font configuration (style / weight / size / family)
+ * @param options.text Warm-up text
  */
 export default async function loadFont(options: LoadFontOptions) {
   const { ctx, font = {}, text } = options
@@ -35,8 +38,10 @@ export default async function loadFont(options: LoadFontOptions) {
 
   const _ctx = ctx || (document.createElement('canvas').getContext('2d') as CanvasRenderingContext2D)
 
+  // Draw the text once outside the visible area to warm up the font, forcing the browser to actually load and apply it (not debug code)
   _ctx.font = `${style} ${weight} ${size}px ${family}`
   _ctx.fillText(text || '', -999, -999)
 
+  // Wait one frame to ensure the font has taken effect before returning
   await new Promise(requestAnimationFrame)
 }

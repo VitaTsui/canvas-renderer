@@ -48,27 +48,27 @@ export default async function drawCtx(options: DrawCtxOptions) {
     ;[lt, rt, rb, lb] = [radius, radius, radius, radius]
   }
 
-  // 左上圆角
+  // Top-left rounded corner
   if (lt) {
     ctx.arc(x + lt, y + lt, lt, PI, PI * 1.5)
   } else {
     ctx.moveTo(x, y)
   }
-  // 右上圆角
+  // Top-right rounded corner
   if (rt) {
     ctx.lineTo(x + width - rt, y)
     ctx.arc(x + width - rt, y + rt, rt, PI * 1.5, 0)
   } else {
     ctx.lineTo(x + width, y)
   }
-  // 右下圆角
+  // Bottom-right rounded corner
   if (rb) {
     ctx.lineTo(x + width, y + height - rb)
     ctx.arc(x + width - rb, y + height - rb, rb, 0, PI * 0.5)
   } else {
     ctx.lineTo(x + width, y + height)
   }
-  // 左下圆角
+  // Bottom-left rounded corner
   if (lb) {
     ctx.lineTo(x + lb, y + height)
     ctx.arc(x + lb, y + height - lb, lb, PI * 0.5, PI)

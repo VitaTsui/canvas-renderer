@@ -8,7 +8,7 @@ export { loadImage }
 import loadFont from './utils/loadFont'
 export { loadFont }
 
-// 导出 TextGraphics 相关类型
+// Export TextGraphics related types
 export type {
   TextGraphicsOptions,
   Padding as TextPadding,
@@ -27,7 +27,7 @@ export type {
   FontStyle
 } from './TextGraphics'
 
-// 导出 ImageGraphics 相关类型
+// Export ImageGraphics related types
 export type {
   ImageGraphicsOptions,
   ImgAlign,

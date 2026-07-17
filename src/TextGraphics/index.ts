@@ -4,7 +4,7 @@ import drawCtx from './drawCtx'
 import drawBorder from './drawBorder'
 import drawText from './drawText'
 
-// 基础类型
+// Basic types
 export type Padding = number | [number, number] | [number, number, number, number]
 export type Size = number | 'auto' | 'bgImg'
 export type Align = 'top' | 'center' | 'bottom'
@@ -12,12 +12,12 @@ export type Radius = number | [number, number, number, number]
 export type Direction = 'vertical' | 'horizontal'
 export type Fill = 'ctx' | 'img'
 
-// 渐变类型
+// Gradient type
 export interface LinearGradient {
   [key: number]: string
 }
 
-// 文本相关类型
+// Text related types
 export type TextAlign = 'left' | 'center' | 'right'
 
 /** 文本阴影样式 */
@@ -52,7 +52,7 @@ export interface Font {
   family?: string
 }
 
-/** 背景样式 */
+/** Background style */
 export interface BackgroundStyle {
   /** 背景颜色，可以是纯色或线性渐变 */
   color?: string | LinearGradient
@@ -68,7 +68,7 @@ export interface BackgroundStyle {
   imageFill?: Fill
 }
 
-/** 边框样式 */
+/** Border style */
 export interface BorderStyle {
   /** 边框颜色 */
   color?: string
@@ -78,7 +78,7 @@ export interface BorderStyle {
   radius?: Radius
 }
 
-/** 文本字体样式 */
+/** Text font style */
 export interface FontStyle {
   /** 字体配置 */
   font?: Font
@@ -95,7 +95,7 @@ export interface FontStyle {
 }
 
 /**
- * `TextGraphics` 主配置
+ * Main options of `TextGraphics`
  */
 export interface TextGraphicsOptions {
   /** 文本内容，单行或多行数组 */
@@ -117,10 +117,9 @@ export interface TextGraphicsOptions {
 }
 
 /**
- * 根据文本、背景、边框等配置生成文字画布
- *
- * @param options 文本图形配置
- * @returns 已绘制完成内容的 `HTMLCanvasElement`
+ * Render text to a canvas, supporting multi-line text, border, background (solid color / gradient / image), font styles, text stroke and shadow
+ * @param options Text rendering options, see TextGraphicsOptions
+ * @returns The rendered `HTMLCanvasElement`
  */
 export default async function TextGraphics(options: TextGraphicsOptions): Promise<HTMLCanvasElement> {
   const {
