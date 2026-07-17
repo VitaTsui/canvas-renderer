@@ -2,25 +2,25 @@ import loadImage from '../utils/loadImage'
 import type { BackgroundStyle, Radius } from './index'
 
 /**
- * 绘制背景上下文配置
+ * Background drawing context options
  */
 export interface DrawCtxOptions {
-  /** 用于绘制背景的 2D 上下文 */
+  /** 2D context used to draw the background */
   ctx: CanvasRenderingContext2D
-  /** 背景样式（颜色 / 渐变 / 图片等），不传则不绘制背景 */
+  /** Background style (color / gradient / image, etc.); no background is drawn if omitted */
   backgroundStyle?: BackgroundStyle
-  /** 背景圆角，支持单值或 [lt, rt, rb, lb] */
+  /** Background corner radius, supports a single value or [lt, rt, rb, lb] */
   radius?: Radius
-  /** 绘制区域宽度 */
+  /** Width of the drawing area */
   width: number
-  /** 绘制区域高度 */
+  /** Height of the drawing area */
   height: number
 }
 
 /**
- * 按配置在指定区域内绘制背景（纯色 / 渐变 / 图片），并支持圆角裁剪
+ * Draw the background (solid color / gradient / image) in the given area according to the configuration, with rounded-corner clipping support
  *
- * @param options 背景绘制参数
+ * @param options Background drawing options
  */
 export default async function drawCtx(options: DrawCtxOptions) {
   const { ctx, width, height, radius = 0, backgroundStyle = {} } = options

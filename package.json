@@ -1,6 +1,6 @@
 {
   "name": "@hsu-canvas/renderer",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "description": "Canvas 渲染工具集：富样式文本渲染（TextGraphics）、图片合成渲染（ImageGraphics）与图片/字体加载工具",
   "keywords": [
     "canvas",
@@ -68,6 +68,6 @@
     "webpack-cli": "^4.9.1"
   },
   "dependencies": {
-    "hsu-utils": "^0.0.54"
+    "hsu-utils": "^0.0.55"
   }
 }

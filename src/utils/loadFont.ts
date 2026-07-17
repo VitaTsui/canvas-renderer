@@ -1,26 +1,26 @@
 /**
- * 字体配置
+ * Font configuration
  */
 interface Font {
-  /** 字体样式，例如 normal / italic */
+  /** Font style, e.g. normal / italic */
   style?: string
-  /** 字重，例如 normal / bold / 100~900 */
+  /** Font weight, e.g. normal / bold / 100~900 */
   weight?: string
-  /** 字号，单位 px */
+  /** Font size, in px */
   size?: number
-  /** 字体族名称，例如 sans-serif / Arial */
+  /** Font family name, e.g. sans-serif / Arial */
   family?: string
 }
 
 /**
- * 加载字体的配置项
+ * Options for loading a font
  */
 export interface LoadFontOptions {
-  /** 要设置字体并进行预渲染的 2D 上下文，不传则内部创建临时 canvas */
+  /** 2D context to set the font on and pre-render with; a temporary canvas is created internally if omitted */
   ctx?: CanvasRenderingContext2D
-  /** 字体配置，不传则使用默认字体 */
+  /** Font configuration; the default font is used if omitted */
   font?: Font
-  /** 用于触发字体渲染的一段文字，通常可以传入实际要渲染的文本 */
+  /** A piece of text used to trigger font rendering, usually the actual text to be rendered */
   text?: string
 }
 

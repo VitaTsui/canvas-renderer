@@ -9,13 +9,13 @@ export type ImgAlign = 'start' | 'center' | 'end'
  * Image item options
  */
 export interface ImageItem {
-  /** 图片地址 */
+  /** Image URL */
   url: string
-  /** 绘制宽度，不传则使用图片本身宽度 */
+  /** Drawing width; the image's own width is used if omitted */
   width?: number
-  /** 绘制高度，不传则使用图片本身高度 */
+  /** Drawing height; the image's own height is used if omitted */
   height?: number
-  /** 层级，数值越大越靠上 */
+  /** Stacking order; higher values are drawn on top */
   zIndex?: number
 }
 
@@ -67,23 +67,23 @@ function get_img_maxHeight(images: ImageElement[], direction: Direction) {
 }
 
 interface DrawImgOptions {
-  /** 绘制使用的 2D 上下文 */
+  /** 2D context used for drawing */
   ctx: CanvasRenderingContext2D
-  /** 最大可用宽度（不包含 padding），用于水平对齐计算 */
+  /** Maximum available width (padding excluded), used for horizontal alignment */
   maxWidth?: number
-  /** 最大可用高度（不包含 padding），用于垂直对齐计算 */
+  /** Maximum available height (padding excluded), used for vertical alignment */
   maxHeight?: number
-  /** 已经加载好的图片元素列表 */
+  /** List of already loaded image elements */
   images: ImageElement[]
-  /** 内容距画布顶部的偏移量 */
+  /** Offset of the content from the top of the canvas */
   top?: number
-  /** 内容距画布左侧的偏移量 */
+  /** Offset of the content from the left of the canvas */
   left?: number
-  /** 图片之间的间距 */
+  /** Gap between images */
   gap?: number
-  /** 布局方向，水平或垂直 */
+  /** Layout direction, horizontal or vertical */
   direction?: Direction
-  /** 单行/单列内部的图片对齐方式 */
+  /** Image alignment within a row/column */
   imgAlign?: ImgAlign
 }
 /**
@@ -145,23 +145,23 @@ function drawImg(options: DrawImgOptions) {
  */
 export interface ImageGraphicsOptions {
   /**
-   * 图片资源：
-   * - 字符串：图片地址
-   * - `ImageItem`：带尺寸与层级的图片配置
-   * - 数组：可混合传入
+   * Image sources:
+   * - string: image URL
+   * - `ImageItem`: image configuration with size and stacking order
+   * - array: a mix of both is allowed
    */
   imgs: string | ImageItem | Array<string | ImageItem>
-  /** 画布内边距，上右下左，支持简写 */
+  /** Canvas padding, top/right/bottom/left, shorthand supported */
   padding?: Padding
-  /** 图片排列方向 */
+  /** Image layout direction */
   direction?: Direction
-  /** 图片之间的间距 */
+  /** Gap between images */
   gap?: number
-  /** 每行/列中图片的对齐方式 */
+  /** Image alignment within each row/column */
   imgAlign?: ImgAlign
-  /** 画布宽度，`auto` 表示根据图片自动计算 */
+  /** Canvas width; `auto` computes it from the images */
   width?: number | 'auto'
-  /** 画布高度，`auto` 表示根据图片自动计算 */
+  /** Canvas height; `auto` computes it from the images */
   height?: number | 'auto'
 }
 

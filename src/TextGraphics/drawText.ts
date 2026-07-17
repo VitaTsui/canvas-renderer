@@ -3,11 +3,11 @@ import loadFont from '../utils/loadFont'
 import type { FontStyle, TextAlign, LinearGradient, Font } from './index'
 
 /**
- * 根据最大行宽与对齐方式，计算当前行文本的起始 x 坐标偏移
+ * Calculate the starting x offset of the current line based on the maximum line width and the alignment
  *
- * @param maxTextLength 可用的最大文本宽度
- * @param textLenth 当前行文本实际宽度
- * @param textAlign 文本对齐方式
+ * @param maxTextLength Maximum available text width
+ * @param textLenth Actual width of the current line
+ * @param textAlign Text alignment
  */
 function _calculateLeft(maxTextLength: number, textLenth: number, textAlign: TextAlign) {
   let _left = 0
@@ -23,26 +23,26 @@ function _calculateLeft(maxTextLength: number, textLenth: number, textAlign: Tex
 }
 
 /**
- * 单行文本绘制配置
+ * Single-line text drawing options
  */
 interface DrawRowText {
-  /** 2D 绘制上下文 */
+  /** 2D rendering context */
   ctx: CanvasRenderingContext2D
-  /** 要绘制的文本内容（单行） */
+  /** Text content to draw (single line) */
   text: string
-  /** 文本起始 x 坐标 */
+  /** Starting x coordinate of the text */
   left: number
-  /** 文本基线位置 y 坐标 */
+  /** y coordinate of the text baseline */
   top: number
-  /** 字号，单位 px */
+  /** Font size, in px */
   size: number
-  /** 描边线宽 */
+  /** Stroke line width */
   borderWidth: number
-  /** 字符间距 */
+  /** Letter spacing */
   letterSpacing: number
-  /** 文本颜色，可以是纯色或线性渐变 */
+  /** Text color, either a solid color or a linear gradient */
   color: string | LinearGradient
-  /** 字体配置 */
+  /** Font configuration */
   font: Font
 }
 function drawRowText(options: DrawRowText) {
@@ -71,32 +71,32 @@ function drawRowText(options: DrawRowText) {
 }
 
 /**
- * 多行文本绘制配置
+ * Multi-line text drawing options
  */
 interface DrawTextOptions {
-  /** 2D 绘制上下文 */
+  /** 2D rendering context */
   ctx: CanvasRenderingContext2D
-  /** 文本内容（多行数组，每个元素为一行） */
+  /** Text content (array of lines, one element per line) */
   text: string[]
-  /** 单行可用的最大宽度，影响对齐与截断 */
+  /** Maximum available width per line, affects alignment and truncation */
   maxTextLength?: number
-  /** 文本样式配置（颜色、字体、描边、阴影等） */
+  /** Text style configuration (color, font, stroke, shadow, etc.) */
   fontStyle?: FontStyle
-  /** 文本整体相对画布顶部的偏移量 */
+  /** Offset of the whole text from the top of the canvas */
   top?: number
-  /** 文本整体相对画布左侧的偏移量 */
+  /** Offset of the whole text from the left of the canvas */
   left?: number
-  /** 行间距 */
+  /** Row gap between lines */
   rowGap?: number
 }
 
 /**
- * 在给定画布上下文中绘制多行文本，包括：
- * - 文本对齐（left / center / right）
- * - 字间距、行间距
- * - 渐变文字、描边、阴影等效果
+ * Draw multi-line text on the given canvas context, including:
+ * - Text alignment (left / center / right)
+ * - Letter spacing and row gap
+ * - Effects such as gradient text, stroke and shadow
  *
- * @param options 文本绘制参数
+ * @param options Text drawing options
  */
 export default async function drawText(options: DrawTextOptions) {
   const { ctx, text, maxTextLength, fontStyle = {}, top = 0, left = 0, rowGap = 0 } = options
